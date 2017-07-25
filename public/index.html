@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <base href="/">
+
+    
+    <title>Airport Management</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- custom styles -->
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- ANGULAR CUSTOM -->
+    <script src="https://use.fontawesome.com/f0e5d7bb5e.js"></script>
+    <script src="js/controllers/MainCtrl.js"></script>
+    <script src="js/services/RestaurantService.js"></script>
+    <script src="js/services/ReviewService.js"></script>
+    <script src="js/services/UserService.js"></script>
+    <script src="js/appRoutes.js"></script>
+    <script src="js/app.js"></script>
+
+</head>
+
+<body ng-app="eq-airport">
+    <div class="container">
+
+        <!-- HEADER -->
+        <nav class="navbar navbar-inverse">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Airport Management 1.0</a>
+            </div>
+        </nav>
+
+        <!-- ANGULAR DYNAMIC CONTENT -->
+        <div ng-view></div>
+
+    </div>
+</body>
+
+</html>
