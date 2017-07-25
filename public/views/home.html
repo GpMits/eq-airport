@@ -1,43 +1,40 @@
-<nav class="navbar">
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#flights">Flights</a></li>
-        <li><a data-toggle="tab" href="#arrivals">Arrivals</a></li>
-        <li><a data-toggle="tab" href="#departures">Departures</a></li>
-        <li><a data-toggle="tab" href="#controllers">Controllers</a></li>
-    </ul>
 
-    <div class="tab-content">
-        <div id="flights" class="tab-pane fade in active">
-            <div class="col-md-6 col-md-offset-3 login-div">
-                <h2>Login</h2>
-                <form name="form" ng-submit="login()" role="form">
-                    <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" ng-model="vm.username" required />
-                        <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
-                    </div>
-                    <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" ng-model="vm.password" required />
-                        <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Login</button>
-                        <a href="/#!/register" class="btn btn-link">Register</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="arrivals" class="tab-pane fade">
-            <h3>Menu 1</h3>
-            <p>Some content in menu 1.</p>
-        </div>
-        <div id="departures" class="tab-pane fade">
-            <h3>Menu 2</h3>
-            <p>Some content in menu 2.</p>
-        </div>
+<div class="options">
+    <div class="input-group flight-search-box">
+        <span class="input-group-addon" id="basic-addon1"><span class="lnr lnr-magnifier"></span></span>
+        <input type="text" class="form-control" placeholder="Flight Code" aria-describedby="basic-addon1">
     </div>
-</nav>
+    <button type="button" class="btn btn-primary add-flight-btn"><span class="lnr lnr-plus-circle"></span> Add Flight</button>
+</div>
+
+<h1>Last Flights</h1>
+<div class="last-flights-table">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Code </th>
+                <th>Carrier </th>
+                <th>Departing </th>
+                <th>Destination </th>
+                <th>Days of Week </th>
+                <th>Departure Time </th>
+                <th>Arrival Time </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-click="clickRow(p)" ng-repeat-start="p in places | orderBy:sort.active:sort.descending">
+                <td><span ng-bind="p.name"></span></td>
+                <td><span ng-bind="p.vicinity"></span></td>
+                <td><span ng-bind="p.opening_hours.open_now || '-'"></span></td>
+                <td><span ng-bind="p.distance + ' km'"></span></td>
+                <td><span ng-bind="p.average_rating || '-'"></span></td>
+                <td><span ng-bind="p.price_level || '-'"></span></td>
+            </tr>
+            <tr ng-repeat-end>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <!--<div ng-show="showMap">
     <div id="map"></div>
 </div>

@@ -4,6 +4,19 @@ body { padding-top:30px; }
         height: 420px;
 }
 
+.flight-search-box {
+        width: 300px;
+        float: left;
+}
+
+.add-flight-btn{
+        float: right;
+}
+
+.options {
+        overflow: auto;
+}
+
 .controls {
         margin-top: 10px;
         border: 1px solid transparent;
