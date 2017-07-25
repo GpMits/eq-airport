@@ -130,7 +130,7 @@ module.exports = function (app) {
             controllers: req.body.controllers
         });
 
-        rev.save(function (err, arrival) {
+        arrival.save(function (err, arrival) {
             if (err)
                 res.send(err);
             else
@@ -147,7 +147,7 @@ module.exports = function (app) {
             controllers: req.body.controllers
         });
 
-        rev.save(function (err, departure) {
+        departure.save(function (err, departure) {
             if (err)
                 res.send(err);
             else
