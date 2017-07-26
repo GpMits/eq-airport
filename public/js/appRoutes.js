@@ -7,4 +7,9 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             controller: 'MainController'
         })
 
+        .when('/flight', {
+            templateUrl: 'views/flight.html',
+            controller: 'FlightController'
+        })
+
 }]);

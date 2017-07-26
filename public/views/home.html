@@ -1,10 +1,15 @@
-
+<div class="alert alert-success" ng-show="showFlightCreated">
+    <strong>Flight successfully created!</strong>
+</div>
+<div class="alert alert-danger" ng-show="searchError">
+    <strong>Flight not found!</strong>
+</div>
 <div class="options">
     <div class="input-group flight-search-box">
         <span class="input-group-addon" id="basic-addon1"><span class="lnr lnr-magnifier"></span></span>
-        <input type="text" class="form-control" placeholder="Flight Code" aria-describedby="basic-addon1">
+        <input ng-model="flightCodeSearch" ng-keypress="findFlight($event)" type="text" class="form-control" placeholder="Flight Code" aria-describedby="basic-addon1">
     </div>
-    <button type="button" class="btn btn-primary add-flight-btn"><span class="lnr lnr-plus-circle"></span> Add Flight</button>
+    <button type="button" class="btn btn-primary add-flight-btn" ng-click="openModal()"><span class="lnr lnr-plus-circle"></span> Add Flight</button>
 </div>
 
 <h1>Last Flights</h1>
@@ -22,86 +27,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-click="clickRow(p)" ng-repeat-start="p in places | orderBy:sort.active:sort.descending">
-                <td><span ng-bind="p.name"></span></td>
-                <td><span ng-bind="p.vicinity"></span></td>
-                <td><span ng-bind="p.opening_hours.open_now || '-'"></span></td>
-                <td><span ng-bind="p.distance + ' km'"></span></td>
-                <td><span ng-bind="p.average_rating || '-'"></span></td>
-                <td><span ng-bind="p.price_level || '-'"></span></td>
+            <tr ng-click="clickRow(p)" ng-repeat-start="f in flights">
+                <td><span ng-bind="f.code"></span></td>
+                <td><span ng-bind="f.carrier"></span></td>
+                <td><span ng-bind="f.departing_airport"></span></td>
+                <td><span ng-bind="f.destination_airport"></span></td>
+                <td><span ng-bind="f.days_of_week[0]"></span></td>
+                <td><span ng-bind="f.departure"></span></td>
+                <td><span ng-bind="f.arrival"></span></td>
             </tr>
             <tr ng-repeat-end>
             </tr>
         </tbody>
     </table>
 </div>
-<!--<div ng-show="showMap">
-    <div id="map"></div>
-</div>
-<div ng-show="!showMap">
-    <div class="restaurant-table">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th ng-click="changeSorting('name')">Restaurant <i class="glyphicon" ng-class="getIcon('name')"></i></th>
-                    <th ng-click="changeSorting('vicinity')">Address <i class="glyphicon" ng-class="getIcon('vicinity')"></i></th>
-                    <th ng-click="changeSorting('opening_hours.open_now')">Open <i class="glyphicon" ng-class="getIcon('opening_hours.open_now')"></i></th>
-                    <th ng-click="changeSorting('distance')">Distance <i class="glyphicon" ng-class="getIcon('distance')"></i></th>
-                    <th ng-click="changeSorting('average_rating')">Average Rating <i class="glyphicon" ng-class="getIcon('average_rating')"></i></th>
-                    <th ng-click="changeSorting('price_level')">Price Level <i class="glyphicon" ng-class="getIcon('price_level')"></i></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-click="clickRow(p)" ng-repeat-start="p in places | orderBy:sort.active:sort.descending">
-                    <td><span ng-bind="p.name"></span></td>
-                    <td><span ng-bind="p.vicinity"></span></td>
-                    <td><span ng-bind="p.opening_hours.open_now || '-'"></span></td>
-                    <td><span ng-bind="p.distance + ' km'"></span></td>
-                    <td><span ng-bind="p.average_rating || '-'"></span></td>
-                    <td><span ng-bind="p.price_level || '-'"></span></td>
-                </tr>
-                <tr ng-repeat-end>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<div hidden>
-    <input type="text" class="controls" id="rest-search" placeholder="Search Box">
-</div>
-<br/>
-<div ng-show="commentFormShow">
-    <div class="rest-info">
-        <h3>{{restName}}</h3>
-        <div style="text-align : center">
-            <img ng-src="{{restPhoto}}" height=200px width=200px alt="Description" />
-        </div>
-    </div>
-    <div class="input-group comment-form">
-        <i class="fa fa-star" aria-hidden="true" ng-repeat="s in getNumber(5) track by $index" ng-if="$index+1 <= review.rating" ng-click="setStars($index +1)"></i>
-        <i class="fa fa-star-o" aria-hidden="true" ng-repeat="s in getNumber(5) track by $index" ng-if="$index+1 > review.rating || !review.rating" ng-click="setStars($index +1)"></i><br>
-        <textarea rows="3" class="form-control form-input" ng-model="review.comment" placeholder="Write a Comment"></textarea>
-        <button type="text" class="btn btn-default form-input" ng-click="processComment()">Submit</button>
-    </div>
-</div>
-
-<table class="table table-hover review-table" ng-show="commentFormShow && reviewsList.length>0">
-    <thead>
-        <tr>
-            <th>User</th>
-            <th>Comment</th>
-            <th>Rating</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat-start="r in reviewsList">
-            <td><span ng-bind="r.username"></span></td>
-            <td><span ng-bind="r.comment"></span></td>
-            <td><span ng-bind="r.rating"></span></td>
-            <td><span ng-bind="r.created_at | date:'medium'"></span></td>
-        </tr>
-        <tr ng-repeat-end>
-        </tr>
-    </tbody>
-</table>-->

@@ -12,5 +12,9 @@ module.exports = mongoose.model('Controller', {
     surname: {
         type: String,
         default: ''
+    },
+    busy: {
+        type: Boolean,
+        default: false
     }
 });

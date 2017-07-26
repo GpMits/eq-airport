@@ -22,6 +22,20 @@ module.exports = function (app) {
         });
     });
 
+    //Get top 10 Flights, ordered by creation date
+    app.get('/api/flight/', function (req, res) {
+        var code = req.params.code;
+        Flight.find().sort({created_at: -1}).limit(10).exec(  
+            function (err, flights) {
+                if (err)
+                    res.send(err);
+                else if (!flights)
+                    res.send(200, []);
+                else
+                    res.send(flights);
+            });
+    });
+
     //Get Controller by code
     app.get('/api/controller/:code', function (req, res) {
         var code = req.params.code;
@@ -35,6 +49,20 @@ module.exports = function (app) {
             else
                 res.send(controller);
         });
+    });
+
+    //Get all Controllers, ordered by code
+    app.get('/api/flight/', function (req, res) {
+        var code = req.params.code;
+        Controller.find().sort({code: -1}).exec(  
+            function (err, controllers) {
+                if (err)
+                    res.send(err);
+                else if (!controllers)
+                    res.send(200, []);
+                else
+                    res.send(controllers);
+            });
     });
 
     //Get Arrivals by Flight code

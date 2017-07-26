@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">New Arrival</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div class="form-group" >
+        <label>Flight {{flight.code}}</label>
+        <label for="arrival">Arrival</label>
+        <input type="time" id="arrival" name="arrival" ng-model="arrival" placeholder="HH:mm" required />
+        <label for="lane">Lane Used</label>
+        <input type="text" id="lane" name="lane" ng-model="lane" required />
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">Add</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

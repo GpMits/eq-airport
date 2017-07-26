@@ -28,5 +28,9 @@ module.exports = mongoose.model('Flight', {
     arrival: {
         type: Date,
         default: null
+    },
+    created_at: {
+        type: Date,
+        default: new Date()
     }
 });

@@ -1,0 +1,28 @@
+<div class="options">
+    <div class="input-group flight-search-box">
+        <span class="input-group-addon" id="basic-addon1"><span class="lnr lnr-magnifier"></span></span>
+        <input type="text" class="form-control" placeholder="Flight Code" aria-describedby="basic-addon1">
+    </div>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Code</dt>
+  <dd>{{flight.code}}</dd>
+  <dt>Carrier</dt>
+  <dd>{{flight.carrier}}</dd>
+  <dt>Days</dt>
+  <dd>{{flight.days_of_week}}</dd>
+  <dt>Departing Airport</dt>
+  <dd>{{flight.departing_airport}}</dd>
+  <dt>Destination Airport</dt>
+  <dd>{{flight.destination_airport}}</dd>
+  <dt>Departure</dt>
+  <dd>{{flight.departure}}</dd>
+  <dt>Arrival</dt>
+  <dd>{{flight.arrival}}</dd>
+  <dt>Created At</dt>
+  <dd>{{flight.created_at}}</dd>
+</dl>
+
+<button type="button" class="btn btn-primary add-flight-btn" ng-click="openNewArrivalModal()"><span class="lnr lnr-plus-circle"></span> Add Arrival</button>
+<button type="button" class="btn btn-primary add-flight-btn" ng-click="openNewDepartureModal()"><span class="lnr lnr-plus-circle"></span> Add Departure</button>

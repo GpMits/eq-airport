@@ -1,7 +1,9 @@
 angular.module('eq-airport', ['ngRoute',
+    'ui.bootstrap',
     'appRoutes',
     'MainCtrl',
-    'RestaurantService',
+    'FlightCtrl',
+    'FlightService',
     'ReviewService',
     'UserService'
 ]);
