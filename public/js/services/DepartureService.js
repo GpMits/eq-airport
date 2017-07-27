@@ -1,18 +1,18 @@
-angular.module('ControllerService', []).factory('ControllerService', ['$http', '$q', function ($http, $q) {
+angular.module('DepartureService', []).factory('DepartureService', ['$http', '$q', function ($http, $q) {
 
-    var REST_SERVICE_URI = 'http://localhost:8080/api/controller/';
+    var REST_SERVICE_URI = 'http://localhost:8080/api/departure/';
 
     var factory = {
-        getController: getController,
-        createController: createController,
-        getAllControllers: getAllControllers
+        getDeparture: getDeparture,
+        createDeparture: createDeparture,
+        getAllDeparturesForFlight: getAllDeparturesForFlight
     };
 
     return factory;
 
-    function getController(controllerCode) {
+    function getDeparture(departureCode) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + controllerCode)
+        $http.get(REST_SERVICE_URI + departureCode)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -24,9 +24,9 @@ angular.module('ControllerService', []).factory('ControllerService', ['$http', '
         return deferred.promise;
     }
 
-    function createController() {
+    function createDeparture(departure) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
+        $http.post(REST_SERVICE_URI, departure)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -38,9 +38,9 @@ angular.module('ControllerService', []).factory('ControllerService', ['$http', '
         return deferred.promise;
     }
 
-    function getAllControllers() {
+    function getAllDeparturesForFlight(flightCode) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
+        $http.get(REST_SERVICE_URI + flightCode)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
