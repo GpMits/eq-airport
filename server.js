@@ -24,7 +24,6 @@ app.use(express.static(__dirname + '/public')); // set the static files location
 
 // routes ==================================================
 require('./app/routes')(app); // pass our application into our routes
-require('./app/routes_old')(app);
 
 // start app ===============================================
 app.listen(port);	

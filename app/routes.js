@@ -89,6 +89,48 @@ module.exports = function (app) {
         });
     });
 
+    //Get Arrivals by Flight id, between dates
+    app.get('/api/arrival/:flight_id/:begin_date/:end_date', function (req, res) {
+        var flight_id = req.params.flight_id;
+        var begin_date = req.params.begin_date;
+        var end_date = req.params.end_date;
+        
+        Arrival.find({
+            "flight_id": new ObjectId(flight_id),
+            "arrival_time": {
+                "$gte": new Date(begin_date),
+                "$lte": new Date(end_date)
+            }
+        }, function (err, arrivals) {
+            if (err)
+                res.send(err);
+            else
+                res.send(200, arrivals);
+        });
+
+    });
+
+    //Get Departures by Flight id, between dates
+    app.get('/api/departure/:flight_id/:begin_date/:end_date', function (req, res) {
+        var flight_id = req.params.flight_id;
+        var begin_date = req.params.begin_date;
+        var end_date = req.params.end_date;
+        
+        Departure.find({
+            "flight_id": new ObjectId(flight_id),
+            "departure_time": {
+                "$gte": new Date(begin_date),
+                "$lte": new Date(end_date)
+            }
+        }, function (err, departures) {
+            if (err)
+                res.send(err);
+            else
+                res.send(200, departures);
+        });
+
+    });
+    
     //Get Departures by Flight code
     app.get('/api/departure/:flight_code', function (req, res) {
         var flight_code = req.params.flight_code;
@@ -146,6 +188,24 @@ module.exports = function (app) {
                 res.send(err);
             else
                 res.send(200, controller)
+        });
+    });
+
+    //Update a Controller's busy status
+    app.put('/api/controller/:controller_code', function (req, res) {
+        controller_code = req.params.controller_code;
+        busy = req.body.busy;
+        Controller.update({
+            "code": controller_code
+        }, {
+            $set: {
+                "busy": busy
+            }
+        }, function (err, rest) {
+            if (err)
+                res.send(err);
+            else
+                res.send(200)
         });
     });
 

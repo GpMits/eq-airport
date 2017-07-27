@@ -10,11 +10,11 @@
     <div class="alert alert-success" ng-show="showFlightCreated">
         <strong>Flight successfully created!</strong>
     </div>
-    <div class="alert alert-danger" ng-show="searchError">
-        <strong>Controller not found!</strong>
+    <div class="alert alert-danger" ng-show="erroMessage">
+        <strong>{{erroMessageText}}</strong>
     </div>
-    <div class="alert alert-warning" ng-show="alreadyAddedError">
-        <strong>Controller already added!</strong>
+    <div class="alert alert-warning" ng-show="warningMessage">
+        <strong>{{warningMessageText}}</strong>
     </div>
     <span class="md-body-2">Flight {{flight.code}}</span>
     <br>

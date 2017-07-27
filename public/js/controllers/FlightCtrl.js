@@ -1,18 +1,17 @@
 angular.module('FlightCtrl', [])
 .controller('newDepartureModalCtrl', function ($scope, $uibModalInstance, ControllerService, DepartureService){
     $scope.controllers = []
-    console.log("DEPPPP")
-    $scope.searchError = false;
-    $scope.alreadyAddedError = false;
+    $scope.erroMessage = false;
+    $scope.warningMessage = false;
 
     $scope.searchController = function(keyEvent) {
-        $scope.searchError = false;
-        $scope.alreadyAddedError = false;
+        $scope.erroMessage = false;
+        $scope.warningMessage = false;
         
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             if($scope.controllers[i].code == $scope.controllerCodeSearch){
-                console.log($scope.controllers[i])
-                $scope.alreadyAddedError = true;
+                $scope.warningMessage = true;
+                $scope.warningMessageText = "Controller already added!";
                 return;
             }
         }
@@ -21,10 +20,15 @@ angular.module('FlightCtrl', [])
             ControllerService.getController($scope.controllerCodeSearch).then(
                 function (res) {
                     if(res){
-                        console.log('Found');
-                        $scope.controllers.push(res);
+                        if(res.busy){
+                            $scope.warningMessage = true;
+                            $scope.warningMessageText = "Controller was added to another departure/departure!";
+                        }else{
+                            $scope.controllers.push(res);
+                        }
                     }else{
-                        $scope.searchError = true;
+                        $scope.erroMessage = true;
+                        $scope.erroMessageText = "Controller not found!";
                     }
                 },
                 function (reason) {
@@ -35,12 +39,13 @@ angular.module('FlightCtrl', [])
     }
 
     $scope.findController = function() {
-        $scope.searchError = false;
-        $scope.alreadyAddedError = false;
+        $scope.erroMessage = false;
+        $scope.warningMessage = false;
 
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             if($scope.controllers[i].code == $scope.controllerCodeSearch){
-                $scope.alreadyAddedError = true;
+                $scope.warningMessage = true;
+                $scope.warningMessageText = "Controller already added!";
                 return;
             }
         }
@@ -48,10 +53,15 @@ angular.module('FlightCtrl', [])
         ControllerService.getController($scope.controllerCodeSearch).then(
             function (res) {
                 if(res){
-                    console.log('Found');
-                    $scope.controllers.push(res);
+                    if(res.busy){
+                        $scope.warningMessage = true;
+                        $scope.warningMessageText = "Controller was added to another departure/departure!";
+                    }else{
+                        $scope.controllers.push(res);
+                    }
                 }else{
-                    $scope.searchError = true;
+                    $scope.erroMessage = true;
+                    $scope.erroMessageText = "Controller not found!";
                 }
             },
             function (reason) {
@@ -70,31 +80,59 @@ angular.module('FlightCtrl', [])
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             controllers_codes.push($scope.controllers[i].code);
         }
-        console.log($scope.departure_date)
-        console.log($scope.departure_time)
+
         var departure_date_time = new Date($scope.departure_date.getFullYear(), 
                                          $scope.departure_date.getMonth(), $scope.departure_date.getDate(), 
                                          $scope.departure_time.getHours(), $scope.departure_time.getMinutes(), 
                                          $scope.departure_time.getSeconds());
-        console.log(departure_date_time)
-        departure = {
-            departure_time: departure_date_time,
-            lane_used: $scope.lane,
-            controllers: controllers_codes,
-            flight_id: $scope.flight._id
-        }
+        var begin_date_time = new Date(departure_date_time.getTime() - (12*60*60*1000));
+        var end_date_time = new Date(departure_date_time.getTime() + (12*60*60*1000));
 
-        DepartureService.createDeparture(departure).then(
+        DepartureService.getAllDeparturesForFlightBetweenDates($scope.flight._id, begin_date_time, end_date_time).then(
             function (res) {
-                console.log("Departure Inserted in DB!");
-                $scope.showDepartureCreated = true;
-                $uibModalInstance.close();
+                if(res.length == 0){
+                    departure = {
+                        departure_time: departure_date_time,
+                        lane_used: $scope.lane,
+                        controllers: controllers_codes,
+                        flight_id: $scope.flight._id
+                    }
+
+                    DepartureService.createDeparture(departure).then(
+                        function (res) {
+                            console.log("Departure Inserted in DB!");
+                            for (var i = 0, len = controllers_codes.length; i < len; i++) {
+                                controller = {
+                                    code: controllers_codes[i],
+                                    busy: true
+                                }
+                                console.log(controller)
+                                ControllerService.updateController(controller).then(
+                                    function (res) {
+                                        console.log("Controller updated!");
+                                    },
+                                    function (reason) {
+                                        console.error('Error while updating Controller');
+                                    }
+                                )
+                            }
+                            $scope.showDepartureCreated = true;
+                            $uibModalInstance.close();
+                        },
+                        function (reason) {
+                            console.error('Error while creating Departure');
+                        }
+                    );
+                } else {
+                    $scope.erroMessage = true;
+                    $scope.erroMessageText = "A valid departure must be at least " +
+                                             "12 hours away from another departure for this flight";
+                }
             },
             function (reason) {
                 console.error('Error while creating Departure');
             }
         )
-        
     };
 
     $scope.cancel = function () {
@@ -104,17 +142,17 @@ angular.module('FlightCtrl', [])
 })
 .controller('newArrivalModalCtrl', function ($scope, $uibModalInstance, ControllerService, ArrivalService){
     $scope.controllers = []
-    $scope.searchError = false;
-    $scope.alreadyAddedError = false;
+    $scope.erroMessage = false;
+    $scope.warningMessage = false;
 
     $scope.searchController = function(keyEvent) {
-        $scope.searchError = false;
-        $scope.alreadyAddedError = false;
+        $scope.erroMessage = false;
+        $scope.warningMessage = false;
         
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             if($scope.controllers[i].code == $scope.controllerCodeSearch){
-                console.log($scope.controllers[i])
-                $scope.alreadyAddedError = true;
+                $scope.warningMessage = true;
+                $scope.warningMessageText = "Controller already added!";
                 return;
             }
         }
@@ -123,10 +161,15 @@ angular.module('FlightCtrl', [])
             ControllerService.getController($scope.controllerCodeSearch).then(
                 function (res) {
                     if(res){
-                        console.log('Found');
-                        $scope.controllers.push(res);
+                        if(res.busy){
+                            $scope.warningMessage = true;
+                            $scope.warningMessageText = "Controller was added to another arrival/departure!";
+                        }else{
+                            $scope.controllers.push(res);
+                        }
                     }else{
-                        $scope.searchError = true;
+                        $scope.erroMessage = true;
+                        $scope.erroMessageText = "Controller not found!";
                     }
                 },
                 function (reason) {
@@ -137,12 +180,13 @@ angular.module('FlightCtrl', [])
     }
 
     $scope.findController = function() {
-        $scope.searchError = false;
-        $scope.alreadyAddedError = false;
+        $scope.erroMessage = false;
+        $scope.warningMessage = false;
 
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             if($scope.controllers[i].code == $scope.controllerCodeSearch){
-                $scope.alreadyAddedError = true;
+                $scope.warningMessage = true;
+                $scope.warningMessageText = "Controller already added!";
                 return;
             }
         }
@@ -150,10 +194,15 @@ angular.module('FlightCtrl', [])
         ControllerService.getController($scope.controllerCodeSearch).then(
             function (res) {
                 if(res){
-                    console.log('Found');
-                    $scope.controllers.push(res);
+                    if(res.busy){
+                        $scope.warningMessage = true;
+                        $scope.warningMessageText = "Controller was added to another arrival/departure!";
+                    }else{
+                        $scope.controllers.push(res);
+                    }
                 }else{
-                    $scope.searchError = true;
+                    $scope.erroMessage = true;
+                    $scope.erroMessageText = "Controller not found!";
                 }
             },
             function (reason) {
@@ -172,31 +221,59 @@ angular.module('FlightCtrl', [])
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             controllers_codes.push($scope.controllers[i].code);
         }
-        console.log($scope.arrival_date)
-        console.log($scope.arrival_time)
+
         var arrival_date_time = new Date($scope.arrival_date.getFullYear(), 
                                          $scope.arrival_date.getMonth(), $scope.arrival_date.getDate(), 
                                          $scope.arrival_time.getHours(), $scope.arrival_time.getMinutes(), 
                                          $scope.arrival_time.getSeconds());
-        console.log(arrival_date_time)
-        arrival = {
-            arrival_time: arrival_date_time,
-            lane_used: $scope.lane,
-            controllers: controllers_codes,
-            flight_id: $scope.flight._id
-        }
+        var begin_date_time = new Date(arrival_date_time.getTime() - (12*60*60*1000));
+        var end_date_time = new Date(arrival_date_time.getTime() + (12*60*60*1000));
 
-        ArrivalService.createArrival(arrival).then(
+        ArrivalService.getAllArrivalsForFlightBetweenDates($scope.flight._id, begin_date_time, end_date_time).then(
             function (res) {
-                console.log("Arrival Inserted in DB!");
-                $scope.showArrivalCreated = true;
-                $uibModalInstance.close();
+                if(res.length == 0){
+                    arrival = {
+                        arrival_time: arrival_date_time,
+                        lane_used: $scope.lane,
+                        controllers: controllers_codes,
+                        flight_id: $scope.flight._id
+                    }
+
+                    ArrivalService.createArrival(arrival).then(
+                        function (res) {
+                            console.log("Arrival Inserted in DB!");
+                            for (var i = 0, len = controllers_codes.length; i < len; i++) {
+                                controller = {
+                                    code: controllers_codes[i],
+                                    busy: true
+                                }
+                                console.log(controller)
+                                ControllerService.updateController(controller).then(
+                                    function (res) {
+                                        console.log("Controller updated!");
+                                    },
+                                    function (reason) {
+                                        console.error('Error while updating Controller');
+                                    }
+                                )
+                            }
+                            $scope.showArrivalCreated = true;
+                            $uibModalInstance.close();
+                        },
+                        function (reason) {
+                            console.error('Error while creating Arrival');
+                        }
+                    );
+                } else {
+                    $scope.erroMessage = true;
+                    $scope.erroMessageText = "A valid arrival must be at least " +
+                                             "12 hours away from another arrival for this flight";
+                }
             },
             function (reason) {
                 console.error('Error while creating Arrival');
             }
         )
-        
     };
 
     $scope.cancel = function () {

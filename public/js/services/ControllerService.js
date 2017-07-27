@@ -5,7 +5,8 @@ angular.module('ControllerService', []).factory('ControllerService', ['$http', '
     var factory = {
         getController: getController,
         createController: createController,
-        getAllControllers: getAllControllers
+        getAllControllers: getAllControllers,
+        updateController: updateController
     };
 
     return factory;
@@ -52,4 +53,17 @@ angular.module('ControllerService', []).factory('ControllerService', ['$http', '
         return deferred.promise;
     }
 
+    function updateController(controller) {
+        var deferred = $q.defer();
+        $http.put(REST_SERVICE_URI + controller.code, controller)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
 }]);
