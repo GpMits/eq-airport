@@ -1,7 +1,7 @@
 angular.module('MainCtrl', [])
 .controller('modalCtrl', function ($scope, $uibModalInstance){
     $scope.ok = function () {
-        var days_of_week_strings = []
+        var days_of_week_strings = [];
         for (var day in $scope.days_of_week){
                 if($scope.days_of_week[day]){
                     days_of_week_strings.push(day);
@@ -25,14 +25,18 @@ angular.module('MainCtrl', [])
     };
 
     $scope.days_of_week = {
-        sunday: false,
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-    }
+        SUN: false,
+        MON: false,
+        TUE: false,
+        WED: false,
+        THU: false,
+        FRI: false,
+        SAT: false,
+    };
+
+    $scope.daySelection = function(day){
+        $scope.days_of_week[day] = !$scope.days_of_week[day];
+    };
 })
 .controller('MainController',function ($rootScope, $scope, $uibModal,$location, FlightService){
     var modalInstance;
@@ -58,7 +62,7 @@ angular.module('MainCtrl', [])
     $scope.insertFlight = function(flight){
         FlightService.createFlight(flight).then(
             function (res) {
-                console.log("Flight Inserted in DB!")
+                console.log("Flight Inserted in DB!");
                 $scope.showFlightCreated = true;
                 $scope.getLast10Flights();
             },
@@ -81,7 +85,8 @@ angular.module('MainCtrl', [])
     }
     $scope.getLast10Flights();
 
-    $scope.findFlight = function(keyEvent) {
+    $scope.searchFlight = function(keyEvent) {
+        console.log("search")
         $scope.searchError = false;
         if (keyEvent.which === 13){
             FlightService.getFlight($scope.flightCodeSearch).then(
@@ -91,13 +96,29 @@ angular.module('MainCtrl', [])
                         $location.path('/flight');
                     }else{
                         $scope.searchError = true;
-                        console.log("NOT FOUND");
                     }
                 },
                 function (reason) {
                     console.error('Error while fetching Flight');
                 }
-            )
+            );
         }
     }
+
+    $scope.findFlight = function() {
+        console.log("find")
+        FlightService.getFlight($scope.flightCodeSearch).then(
+            function (res) {
+                if(res){
+                    $rootScope.flight = res;
+                    $location.path('/flight');
+                }else{
+                    $scope.searchError = true;
+                }
+            },
+            function (reason) {
+                console.error('Error while fetching Flight');
+            }
+        );
+    };
 });

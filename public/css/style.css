@@ -1,9 +1,12 @@
-body { padding-top:30px; }
-
-#map {
-        height: 420px;
+.container{
+        margin-top: 20px;
 }
-
+ .options{
+        width: 100%;
+} 
+.add-flight{
+        float: right;
+}
 .flight-search-box {
         width: 300px;
         float: left;
@@ -17,87 +20,43 @@ body { padding-top:30px; }
         overflow: auto;
 }
 
-.controls {
-        margin-top: 10px;
-        border: 1px solid transparent;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: 32px;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      }
-
-#rest-search {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 300px;
+.daysbtn{
+        background-color: rgba(224,224,224,0.96) !important;
+        margin: 1px !important;
+        width: 70px !important;
+        min-width: 70px !important;
+}
+.button-checked{
+        background-color: rgb(0,150,136) !important;
+        color: #FFFFFF !important;
 }
 
-#rest-search:focus {
-        border-color: #4d90fe;
-}
-
-th {
-        cursor: pointer;
-}
-
-.container {
-        border-radius: 10px;
-        background-color: #eeeeee;  
-}
-
-.login-div {
-        padding-bottom: 100px;
-}
-
-.navbar-inverse .navbar-brand {
-        color: white;
-}
-
-* {
-        -webkit-user-select: none;       
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -o-user-select: none;
-        user-select: none;
-}
-
-.rest-info {
-        float: left;
-        width: 50%;
-}
-
-.rest-img{
-        left: 35%;
-        position: relative;
-}
-
-.review-table {
-        margin-top: 50px;
-        float: left;
-}
-
-.form-input{
-        margin-top: 10px;
-}
-
-h3 {
+.group-days{
+        margin-top: 20px;
         text-align: center;
 }
 
-.comment-form {
-        float: left;
-        top: 55px;
+.modal-body{
+        padding: 20px;
 }
 
-.restaurant-table{
-        overflow-y: auto;
-        width: 1140px;
-        height: 420px;
+.days-table{
+        background-color: rgba(224,224,224,0.96);
+        padding: 5px;
+        margin: 2px;
+        font-size: 10px;
+        line-height: 35px;
+        border-radius: 5px;
+}
+
+input[type="text"]:focus, input[type="time"]:focus{
+        box-shadow: none;
+}
+
+.created-at{
+        font-style: italic;
+        color: #909090;
+}
+.last-flights-table td{
+            vertical-align: middle !important;
 }

@@ -1,18 +1,35 @@
+
 <div class="alert alert-success" ng-show="showFlightCreated">
     <strong>Flight successfully created!</strong>
 </div>
 <div class="alert alert-danger" ng-show="searchError">
     <strong>Flight not found!</strong>
 </div>
+
 <div class="options">
     <div class="input-group flight-search-box">
-        <span class="input-group-addon" id="basic-addon1"><span class="lnr lnr-magnifier"></span></span>
-        <input ng-model="flightCodeSearch" ng-keypress="findFlight($event)" type="text" class="form-control" placeholder="Flight Code" aria-describedby="basic-addon1">
+        <md-input-container class="md-icon-float md-block">
+            <!-- Use floating label instead of placeholder -->
+            <label>Flight code</label>
+            <md-icon md-svg-src="img/ic_search_48px.svg" ng-click="findFlight()" class="name"></md-icon>
+            <input ng-model="flightCodeSearch" ng-keypress="searchFlight($event)" type="text">
+        </md-input-container>
     </div>
-    <button type="button" class="btn btn-primary add-flight-btn" ng-click="openModal()"><span class="lnr lnr-plus-circle"></span> Add Flight</button>
+
 </div>
 
-<h1>Last Flights</h1>
+<h1 class="md-display-1">
+    Last added flights
+    <md-button class="md-fab md-primary md-mini add-flight" aria-label="Add flight" ng-click="openModal()">
+        <md-icon md-svg-src="img/ic_add_48px.svg"></md-icon>
+        <md-tooltip
+              md-direction="bottom">
+              Add Flight
+        </md-tooltip>
+    </md-button> 
+</h1>
+
+
 <div class="last-flights-table">
     <table class="table table-hover">
         <thead>
@@ -27,16 +44,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-click="clickRow(p)" ng-repeat-start="f in flights">
-                <td><span ng-bind="f.code"></span></td>
-                <td><span ng-bind="f.carrier"></span></td>
-                <td><span ng-bind="f.departing_airport"></span></td>
-                <td><span ng-bind="f.destination_airport"></span></td>
-                <td><span ng-bind="f.days_of_week[0]"></span></td>
-                <td><span ng-bind="f.departure"></span></td>
-                <td><span ng-bind="f.arrival"></span></td>
-            </tr>
-            <tr ng-repeat-end>
+            <tr ng-repeat="f in flights" ng-click="findFlight(f.code)">
+                <td><span>{{ f.code }}</span></td>
+                <td><span>{{ f.carrier }}</span></td>
+                <td><span>{{ f.departing_airport }}</span></td>
+                <td><span>{{ f.destination_airport }}</span></td>
+                <td><span class="days-table" ng-repeat="d in f.days_of_week">{{ d }} </span></td>
+                <td><span>{{ f.departure | date:'HH:mm'}}</span></td>
+                <td><span>{{ f.arrival | date:'HH:mm'}}</span></td>
             </tr>
         </tbody>
     </table>

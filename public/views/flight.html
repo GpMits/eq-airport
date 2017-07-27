@@ -1,28 +1,50 @@
-<div class="options">
-    <div class="input-group flight-search-box">
-        <span class="input-group-addon" id="basic-addon1"><span class="lnr lnr-magnifier"></span></span>
-        <input type="text" class="form-control" placeholder="Flight Code" aria-describedby="basic-addon1">
-    </div>
+
+<div class="alert alert-success" ng-show="showArrivalCreated">
+    <strong>Arrival successfully created!</strong>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Code</dt>
-  <dd>{{flight.code}}</dd>
-  <dt>Carrier</dt>
-  <dd>{{flight.carrier}}</dd>
-  <dt>Days</dt>
-  <dd>{{flight.days_of_week}}</dd>
-  <dt>Departing Airport</dt>
-  <dd>{{flight.departing_airport}}</dd>
-  <dt>Destination Airport</dt>
-  <dd>{{flight.destination_airport}}</dd>
-  <dt>Departure</dt>
-  <dd>{{flight.departure}}</dd>
-  <dt>Arrival</dt>
-  <dd>{{flight.arrival}}</dd>
-  <dt>Created At</dt>
-  <dd>{{flight.created_at}}</dd>
-</dl>
+<md-button class="md-raised md-primary pull-right" ng-click="openNewDepartureModal()">
+    <md-icon md-svg-src="img/ic_add_48px.svg"></md-icon> Departure&nbsp;  
+</md-button>
+<md-button class="md-raised md-primary pull-right" ng-click="openNewArrivalModal()">
+    <md-icon md-svg-src="img/ic_add_48px.svg"></md-icon> Arrival&nbsp; 
+</md-button>
 
-<button type="button" class="btn btn-primary add-flight-btn" ng-click="openNewArrivalModal()"><span class="lnr lnr-plus-circle"></span> Add Arrival</button>
-<button type="button" class="btn btn-primary add-flight-btn" ng-click="openNewDepartureModal()"><span class="lnr lnr-plus-circle"></span> Add Departure</button>
+<h2 class="md-display-1">Flight {{flight.code}}</h2>
+<span class="created-at">Created at {{flight.created_at  | date:'dd/MM/yyyy HH:mm'}}</span>
+
+<hr>
+
+<b>Code:</b> {{flight.code}} <br />
+<b>Carrier:</b> {{flight.carrier}} <br />
+<b>Departing Airport:</b> {{flight.departing_airport}} <br />
+<b>Destination Airport:</b> {{flight.destination_airport}} <br />
+<b>Departure:</b> {{flight.departure | date:'HH:mm' }} <br />
+<b>Arrival:</b> {{flight.arrival | date:'HH:mm'}} <br />
+<b>Days:</b> <span class="days-table" ng-repeat="d in flight.days_of_week">{{ d }}</span> <br />
+
+<hr>
+<br>
+<h4>Last departures and arrivals</h4>
+<br>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Type </th>
+            <th>Date </th>
+            <th>Time </th>
+            <th>Lane </th>
+            <th>Controllers </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="da in departures_arrivals" ng-click="">
+            <td><span>{{ da.type }}</span></td>
+            <td><span>{{ da.date_time | date:'dd/MM/yyyy'}}</span></td>
+            <td><span>{{ da.date_time | date:'HH:mm'}}</span></td>
+            <td><span>{{ da.lane }}</span></td>
+            <td><span>{{ da.controllers }}</span></td>
+        </tr>
+    </tbody>
+</table>

@@ -1,18 +1,49 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">New Flight</h3>
+    <h3 class="modal-title md-headline" id="modal-title">New Flight</h3>
 </div>
 <div class="modal-body" id="modal-body">
     <div class="form-group" >
-        <label for="code">Code</label>
-        <input type="text" name="code" id="code" class="form-control" ng-model="code" required />
-        <label for="carrier">Carrier</label>
-        <input type="text" name="carrier" id="carrier" class="form-control" ng-model="carrier" required />
-        <label for="dep_airport">Departing Airport</label>
-        <input type="text" name="dep_airport" id="dep_airport" class="form-control" ng-model="dep_airport" required />
-        <label for="dest_airport">Destination Airport</label>
-        <input type="text" name="dest_airport" id="dest_airport" class="form-control" ng-model="dest_airport" required />
-        <label>Days of Week</label>
-        <div class="btn-group">
+        <!-- <label for="code">Code</label>
+        <input type="text" name="code" id="code" class="form-control" ng-model="code" required /> -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Code</label>
+            <input type="text" name="code" id="code" class="form-control" ng-model="code" required />
+        </md-input-container>
+
+        <!-- <label for="carrier">Carrier</label>
+        <input type="text" name="carrier" id="carrier" class="form-control" ng-model="carrier" required /> -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Carrier</label>
+            <input type="text" name="carrier" id="carrier" class="form-control" ng-model="carrier" required />
+        </md-input-container>
+
+        <!-- <label for="dep_airport">Departing Airport</label>
+        <input type="text" name="dep_airport" id="dep_airport" class="form-control" ng-model="dep_airport" required /> -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Departing Airport</label>
+            <input type="text" name="dep_airport" id="dep_airport" class="form-control" ng-model="dep_airport" required />
+        </md-input-container>
+
+        <!-- <label for="dest_airport">Destination Airport</label>
+        <input type="text" name="dest_airport" id="dest_airport" class="form-control" ng-model="dest_airport" required /> -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Destination Airport</label>
+            <input type="text" name="dest_airport" id="dest_airport" class="form-control" ng-model="dest_airport" required />
+        </md-input-container>
+
+        
+        <label class="md-body-2">Days of Week</label>
+        <br>
+        <div class="group-days">
+            <md-button class="daysbtn" ng-class="{'button-checked': days_of_week.SUN}" ng-click="daySelection('SUN')">SUN</md-button>
+            <md-button class="daysbtn" ng-class="{'button-checked': days_of_week.MON}" ng-click="daySelection('MON')">MON</md-button>
+            <md-button class="daysbtn" ng-class="{'button-checked': days_of_week.TUE}" ng-click="daySelection('TUE')">TUE</md-button>
+            <md-button class="daysbtn" ng-class="{'button-checked': days_of_week.WED}" ng-click="daySelection('WED')">WED</md-button>
+            <md-button class="daysbtn" ng-class="{'button-checked': days_of_week.THU}" ng-click="daySelection('THU')">THU</md-button>
+            <md-button class="daysbtn" ng-class="{'button-checked': days_of_week.FRI}" ng-click="daySelection('FRI')">FRI</md-button>
+            <md-button class="daysbtn" ng-class="{'button-checked': days_of_week.SAT}" ng-click="daySelection('SAT')">SAT</md-button>
+        </div>
+        <!-- <div class="btn-group">
             <label class="btn btn-primary" ng-model="days_of_week.sunday" uib-btn-checkbox>Sunday</label>
             <label class="btn btn-primary" ng-model="days_of_week.monday" uib-btn-checkbox>Monday</label>
             <label class="btn btn-primary" ng-model="days_of_week.tuesday" uib-btn-checkbox>Tuesday</label>
@@ -20,15 +51,32 @@
             <label class="btn btn-primary" ng-model="days_of_week.thursday" uib-btn-checkbox>Thursday</label>
             <label class="btn btn-primary" ng-model="days_of_week.friday" uib-btn-checkbox>Friday</label>
             <label class="btn btn-primary" ng-model="days_of_week.saturday" uib-btn-checkbox>Saturday</label>
-        </div>
+        </div> -->
+        
         <br/><br/>
-        <label for="departure">Departure</label>
-        <input type="time" id="departure" name="departure" ng-model="departure" placeholder="HH:mm" required />
-        <label for="arrival">Arrival</label>
-        <input type="time" id="arrival" name="arrival" ng-model="arrival" placeholder="HH:mm" required />
+        <!-- <label for="departure">Departure</label>
+        <input type="time" id="departure" name="departure" ng-model="departure" placeholder="HH:mm" required /> -->
+        <div class="row">
+            <div class="col-md-6">
+                <md-input-container class="md-icon-float md-block">
+                    <label>Departure</label>
+                    <input type="time" id="departure" name="departure" ng-model="departure" required />
+                </md-input-container>
+            </div>
+            <!-- <label for="arrival">Arrival</label>
+            <input type="time" id="arrival" name="arrival" ng-model="arrival" placeholder="HH:mm" required /> -->
+            <div class="col-md-6">
+                <md-input-container class="md-icon-float md-block">
+                    <label>Arrival</label>
+                    <input type="time" id="arrival" name="arrival" ng-model="arrival" required />
+                </md-input-container>
+            </div>
+        </div>
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ok()">Add</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <!-- <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> -->
+    <md-button class="md-raised" ng-click="cancel()">Cancel</md-button>
+    <!-- <button class="btn btn-primary" type="button" ng-click="ok()">Add</button> -->
+    <md-button class="md-raised md-primary" ng-click="ok()">Add</md-button>
 </div>

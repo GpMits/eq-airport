@@ -1,16 +1,63 @@
+<style>
+    .md-datepicker-calendar-pane {
+        z-index: 1200;
+    }
+</style>
 <div class="modal-header">
     <h3 class="modal-title" id="modal-title">New Arrival</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <div class="form-group" >
-        <label>Flight {{flight.code}}</label>
-        <label for="arrival">Arrival</label>
-        <input type="time" id="arrival" name="arrival" ng-model="arrival" placeholder="HH:mm" required />
-        <label for="lane">Lane Used</label>
+    <div class="alert alert-success" ng-show="showFlightCreated">
+        <strong>Flight successfully created!</strong>
+    </div>
+    <div class="alert alert-danger" ng-show="searchError">
+        <strong>Controller not found!</strong>
+    </div>
+    <div class="alert alert-warning" ng-show="alreadyAddedError">
+        <strong>Controller already added!</strong>
+    </div>
+    <span class="md-body-2">Flight {{flight.code}}</span>
+    <br>
+    <br>
+
+    <md-input-container class="md-icon-float md-block">
+        <label>Date</label>
+        <md-datepicker ng-model="arrival_date" md-hide-icons="calendar" required></md-datepicker>
+    </md-input-container>
+    <md-input-container class="md-icon-float md-block">
+        <label>Arrival Time</label>
+        <input type="time" id="arrival_time" name="arrival_time" ng-model="arrival_time" required />
+    </md-input-container>
+    <md-input-container class="md-icon-float md-block">
+        <label>Lane used</label>
         <input type="text" id="lane" name="lane" ng-model="lane" required />
+    </md-input-container>
+    <md-input-container class="md-icon-float md-block">
+        <label>Controller code</label>
+        <md-icon md-svg-src="img/ic_search_48px.svg" ng-click="findController()" class="name"></md-icon>
+        <input ng-model="controllerCodeSearch" ng-keypress="searchController($event)" type="text">
+    </md-input-container>
+    <div class="last-flights-table">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Code </th>
+                    <th>Name </th>
+                    <th>Surname </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in controllers" ng-click="">
+                    <td><span>{{ c.code }}</span></td>
+                    <td><span>{{ c.name }}</span></td>
+                    <td><span>{{ c.surname }}</span></td>
+                    <td><md-icon md-svg-src="img/ic_clear_black_48px.svg" class="name" ng-click="removeController(c)"></md-icon></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ok()">Add</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <md-button class="md-raised" ng-click="cancel()">Cancel</md-button>
+    <md-button class="md-raised md-primary" ng-click="ok()">Add</md-button>
 </div>

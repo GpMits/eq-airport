@@ -52,7 +52,7 @@ module.exports = function (app) {
     });
 
     //Get all Controllers, ordered by code
-    app.get('/api/flight/', function (req, res) {
+    app.get('/api/controller/', function (req, res) {
         var code = req.params.code;
         Controller.find().sort({code: -1}).exec(  
             function (err, controllers) {
@@ -168,9 +168,9 @@ module.exports = function (app) {
 
     //Create new Departure
     app.post('/api/departure', function (req, res) {
-        var departure = Arrival({
+        var departure = Departure({
             flight_id: req.body.flight_id,
-            departure_time: req.body.arrival_time,
+            departure_time: req.body.departure_time,
             lane_used: req.body.lane_used,
             controllers: req.body.controllers
         });

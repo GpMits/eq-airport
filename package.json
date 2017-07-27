@@ -2,20 +2,21 @@
   "name": "eq-airport",
   "main": "server.js",
   "dependencies": {
-
-    "express" : "~4.5.1",
-    "mongoose" : "~3.8.0",
-    "body-parser" : "~1.4.2",
-    "method-override" : "~2.0.2",
+    "angular-animate": "^1.6.5",
+    "angular-bootstrap": "^0.12.2",
+    "angular-material": "^1.1.4",
+    "angularjs-toaster": "^2.1.0",
+    "body-parser": "~1.4.2",
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
+    "config": "^1.20.1",
+    "express": "~4.5.1",
+    "method-override": "~2.0.2",
     "mocha": "^2.4.5",
-    "config": "^1.20.1"
+    "mongoose": "~3.8.0"
   },
-
   "scripts": {
     "start": "node server.js",
     "test": "mocha ./app/test/*.js --timeout 10000"
   }
 }
-

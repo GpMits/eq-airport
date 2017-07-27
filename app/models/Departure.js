@@ -15,6 +15,6 @@ module.exports = mongoose.model('Departure', {
         default: 0
     },
     controllers: {
-        type: [ObjectId]
+        type: [String]
     }
 });
