@@ -29,12 +29,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.js"></script>
 
     <!-- ANGULAR CUSTOM -->
     <script src="https://use.fontawesome.com/f0e5d7bb5e.js"></script>
     <script src="js/controllers/MainCtrl.js"></script>
     <script src="js/controllers/FlightCtrl.js"></script>
+    <script src="js/controllers/IndexCtrl.js"></script>
+    <script src="js/controllers/ArrivalsCtrl.js"></script>
+    <script src="js/controllers/DeparturesCtrl.js"></script>
+    <script src="js/controllers/ControllersCtrl.js"></script>
     <script src="js/services/FlightService.js"></script>
     <script src="js/services/ControllerService.js"></script>
     <script src="js/services/ArrivalService.js"></script>
@@ -44,21 +48,42 @@
 
 </head>
 
-<body ng-app="eq-airport">
+<body ng-app="eq-airport" ng-controller="IndexController">
 
     <!-- TOOLBAR -->
     <md-toolbar class="md-hue-2">
         <div class="md-toolbar-tools">
             <h2 flex md-truncate>Equidam - Flight tracker</h2>
-            <!--<md-button class="md-icon-button" aria-label="More">
-            <md-icon md-svg-icon="img/more_vert.svg"></md-icon>-->
             </md-button>
         </div>
     </md-toolbar>
+    
      <div class="container"> 
-        <!-- ANGULAR DYNAMIC CONTENT -->
-        <div ng-view></div>
-
+        <md-content flex>
+            <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
+                <md-tab md-on-select="goToPage('')">
+                    <md-tab-label>
+                        Flights
+                    </md-tab-label>
+                </md-tab>
+                <md-tab md-on-select="goToPage('arrivals')">
+                    <md-tab-label>
+                       Arrivals
+                    </md-tab-label>
+                </md-tab>
+                <md-tab md-on-select="goToPage('departures')">
+                    <md-tab-label>
+                        Departures
+                    </md-tab-label>
+                </md-tab>
+                <md-tab md-on-select="goToPage('controllers')">
+                    <md-tab-label>
+                        Controllers
+                    </md-tab-label>
+                </md-tab>
+            </md-tabs>
+            <div ng-view></div>
+        </md-content>
     </div>
 </body>
 

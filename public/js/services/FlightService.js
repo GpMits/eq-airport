@@ -5,7 +5,7 @@ angular.module('FlightService', []).factory('FlightService', ['$http', '$q', fun
     var factory = {
         getFlight: getFlight,
         createFlight: createFlight,
-        getLast10Flights: getLast10Flights
+        getLastNFlights: getLastNFlights
     };
 
     return factory;
@@ -38,9 +38,9 @@ angular.module('FlightService', []).factory('FlightService', ['$http', '$q', fun
         return deferred.promise;
     }
 
-    function getLast10Flights() {
+    function getLastNFlights(n) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
+        $http.get(REST_SERVICE_URI + 'n/' + n)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

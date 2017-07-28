@@ -6,6 +6,7 @@
     <strong>Flight not found!</strong>
 </div>
 
+<br>
 <div class="options">
     <div class="input-group flight-search-box">
         <md-input-container class="md-icon-float md-block">
@@ -15,11 +16,6 @@
             <input ng-model="flightCodeSearch" ng-keypress="searchFlight($event)" type="text">
         </md-input-container>
     </div>
-
-</div>
-
-<h1 class="md-display-1">
-    Last added flights
     <md-button class="md-fab md-primary md-mini add-flight" aria-label="Add flight" ng-click="openModal()">
         <md-icon md-svg-src="img/ic_add_48px.svg"></md-icon>
         <md-tooltip
@@ -27,6 +23,10 @@
               Add Flight
         </md-tooltip>
     </md-button> 
+</div>
+<hr>
+<h1 class="md-display-1">
+    Last added flights
 </h1>
 
 

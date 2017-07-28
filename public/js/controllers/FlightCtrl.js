@@ -281,9 +281,13 @@ angular.module('FlightCtrl', [])
     };
 
 })
-.controller('FlightController',function ($rootScope, $scope, $uibModal, ArrivalService, DepartureService){
+.controller('FlightController',function ($rootScope, $scope, $uibModal, $location, ArrivalService, DepartureService){
     $scope.flight = $rootScope.flight;
     $scope.departures_arrivals = [];
+
+    $scope.returnHome = function(){
+        $location.path('/');
+    }
 
     $scope.openNewArrivalModal = function(){
         $scope.showFlightCreated = false;
@@ -323,28 +327,42 @@ angular.module('FlightCtrl', [])
 
     $scope.getLastDeparturesArrivals = function() {
         $scope.departures_arrivals = [];
-        ArrivalService.getAllArrivalsForFlight($scope.flight.code).then(
+        var end_date_time = new Date();
+        var begin_date_time = new Date()
+        begin_date_time.setDate(end_date_time.getDate() - 7);
+
+        ArrivalService.getAllArrivalsForFlightBetweenDates($scope.flight._id, begin_date_time, end_date_time).then(
             function (res) {
                 for (var i = 0, len = res.length; i < len; i++) {
                     var da = {
                         type: "Arrival",
                         date_time: res[i].arrival_time,
                         lane: res[i].lane_used,
-                        controllers: res[i].controllers
+                        controllers: res[i].controllers.join()
                     }
                     $scope.departures_arrivals.push(da)
                 }
-                DepartureService.getAllDeparturesForFlight($scope.flight.code).then(
+                DepartureService.getAllDeparturesForFlightBetweenDates($scope.flight._id, begin_date_time, end_date_time).then(
                     function (res) {
                         for (var i = 0, len = res.length; i < len; i++) {
                             var da = {
                                 type: "Departure",
                                 date_time: res[i].departure_time,
                                 lane: res[i].lane_used,
-                                controllers: res[i].controllers
+                                controllers: res[i].controllers.join()
                             }
                             $scope.departures_arrivals.push(da)
                         }
+                        $scope.departures_arrivals.sort(function(da1, da2) {
+                            if (da1.date_time > da2.date_time) {
+                                return -1;
+                            }
+                            if (da1.date_time < da2.date_time) {
+                                return 1;
+                            }
+
+                            return 0;
+                        })
                     },
                     function (reason) {
                         console.error('Error while fetching Departures');

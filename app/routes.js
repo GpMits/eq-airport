@@ -22,10 +22,10 @@ module.exports = function (app) {
         });
     });
 
-    //Get top 10 Flights, ordered by creation date
-    app.get('/api/flight/', function (req, res) {
-        var code = req.params.code;
-        Flight.find().sort({created_at: -1}).limit(10).exec(  
+    //Get top N Flights, ordered by creation date
+    app.get('/api/flight/n/:num', function (req, res) {
+        var num = req.params.num;
+        Flight.find().sort({created_at: -1}).limit(num).exec(  
             function (err, flights) {
                 if (err)
                     res.send(err);
@@ -94,7 +94,7 @@ module.exports = function (app) {
         var flight_id = req.params.flight_id;
         var begin_date = req.params.begin_date;
         var end_date = req.params.end_date;
-        
+        console.log(flight_id)
         Arrival.find({
             "flight_id": new ObjectId(flight_id),
             "arrival_time": {

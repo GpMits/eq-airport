@@ -1,0 +1,20 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Flight </th>
+            <th>Date </th>
+            <th>Time </th>
+            <th>Lane </th>
+            <th>Controllers </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="d in departures_list">
+            <td><span>{{ d.flight_code }}</span></td>
+            <td><span>{{ d.date_time | date:'dd/MM/yyyy'}}</span></td>
+            <td><span>{{ d.date_time | date:'HH:mm'}}</span></td>
+            <td><span>{{ d.lane }}</span></td>
+            <td><span>{{ d.controllers }}</span></td>
+        </tr>
+    </tbody>
+</table>

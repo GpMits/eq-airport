@@ -73,10 +73,9 @@ angular.module('MainCtrl', [])
     }
 
     $scope.getLast10Flights = function(){
-        FlightService.getLast10Flights().then(
+        FlightService.getLastNFlights(10).then(
             function (res) {
                 $scope.flights = res;
-                console.log(res);
             },
             function (reason) {
                 console.error('Error while fetching Flights');
@@ -86,7 +85,6 @@ angular.module('MainCtrl', [])
     $scope.getLast10Flights();
 
     $scope.searchFlight = function(keyEvent) {
-        console.log("search")
         $scope.searchError = false;
         if (keyEvent.which === 13){
             FlightService.getFlight($scope.flightCodeSearch).then(
@@ -105,9 +103,8 @@ angular.module('MainCtrl', [])
         }
     }
 
-    $scope.findFlight = function() {
-        console.log("find")
-        FlightService.getFlight($scope.flightCodeSearch).then(
+    $scope.findFlight = function(code) {
+        FlightService.getFlight(code).then(
             function (res) {
                 if(res){
                     $rootScope.flight = res;
