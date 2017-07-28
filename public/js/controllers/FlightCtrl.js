@@ -76,6 +76,14 @@ angular.module('FlightCtrl', [])
     }
 
     $scope.ok = function () {
+        $scope.erroMessage = false;
+        $scope.warningMessage = false;
+        if($scope.controllers.length == 0){
+            $scope.erroMessage = true;
+            $scope.erroMessageText = "Plase add at least one flight controller!";
+            return;
+        }
+
         var controllers_codes = [];
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             controllers_codes.push($scope.controllers[i].code);
@@ -217,6 +225,13 @@ angular.module('FlightCtrl', [])
     }
 
     $scope.ok = function () {
+        $scope.erroMessage = false;
+        $scope.warningMessage = false;
+        if($scope.controllers.length == 0){
+            $scope.erroMessage = true;
+            $scope.erroMessageText = "Plase add at least one flight controller!";
+            return;
+        }
         var controllers_codes = [];
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             controllers_codes.push($scope.controllers[i].code);

@@ -24,7 +24,7 @@ module.exports = function (app) {
 
     //Get top N Flights, ordered by creation date
     app.get('/api/flight/n/:num', function (req, res) {
-        var num = req.params.num;
+        var num = parseInt(req.params.num);
         Flight.find().sort({created_at: -1}).limit(num).exec(  
             function (err, flights) {
                 if (err)

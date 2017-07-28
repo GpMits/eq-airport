@@ -58,33 +58,33 @@
             </md-button>
         </div>
     </md-toolbar>
-    
-     <div class="container"> 
-        <md-content flex>
-            <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
-                <md-tab md-on-select="goToPage('')">
-                    <md-tab-label>
-                        Flights
-                    </md-tab-label>
-                </md-tab>
-                <md-tab md-on-select="goToPage('arrivals')">
-                    <md-tab-label>
-                       Arrivals
-                    </md-tab-label>
-                </md-tab>
-                <md-tab md-on-select="goToPage('departures')">
-                    <md-tab-label>
-                        Departures
-                    </md-tab-label>
-                </md-tab>
-                <md-tab md-on-select="goToPage('controllers')">
-                    <md-tab-label>
-                        Controllers
-                    </md-tab-label>
-                </md-tab>
-            </md-tabs>
-            <div ng-view></div>
-        </md-content>
+
+    <md-content flex>
+        <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
+            <md-tab md-on-select="goToPage('')">
+                <md-tab-label>
+                    Flights
+                </md-tab-label>
+            </md-tab>
+            <md-tab md-on-select="goToPage('arrivals')">
+                <md-tab-label>
+                Arrivals
+                </md-tab-label>
+            </md-tab>
+            <md-tab md-on-select="goToPage('departures')">
+                <md-tab-label>
+                    Departures
+                </md-tab-label>
+            </md-tab>
+            <md-tab md-on-select="goToPage('controllers')">
+                <md-tab-label>
+                    Controllers
+                </md-tab-label>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    <div class="container">
+        <div ng-view></div>
     </div>
 </body>
 

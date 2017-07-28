@@ -20,6 +20,21 @@
         overflow: auto;
 }
 
+.flight-info-container{
+        min-height: 250px;
+        clear: both;
+}
+
+.flight-info{
+        display: inline-block;
+}
+
+#map_div{
+        width: 400px;
+        height: 250px;
+        float: right;
+
+}
 .daysbtn{
         background-color: rgba(224,224,224,0.96) !important;
         margin: 1px !important;
