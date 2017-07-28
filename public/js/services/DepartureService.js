@@ -5,6 +5,7 @@ angular.module('DepartureService', []).factory('DepartureService', ['$http', '$q
     var factory = {
         getDeparture: getDeparture,
         createDeparture: createDeparture,
+        getAllDepartures: getAllDepartures,
         getAllDeparturesForFlight: getAllDeparturesForFlight,
         getAllDeparturesForFlightBetweenDates: getAllDeparturesForFlightBetweenDates
     };
@@ -42,6 +43,20 @@ angular.module('DepartureService', []).factory('DepartureService', ['$http', '$q
     function getAllDeparturesForFlight(flightCode) {
         var deferred = $q.defer();
         $http.get(REST_SERVICE_URI + flightCode)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function getAllDepartures() {
+        var deferred = $q.defer();
+        $http.get(REST_SERVICE_URI)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

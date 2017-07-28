@@ -1,23 +1,43 @@
 angular.module('MainCtrl', [])
-.controller('modalCtrl', function ($scope, $uibModalInstance){
+.controller('addFlightController', function ($scope, $uibModalInstance, FlightService){
     $scope.ok = function () {
-        var days_of_week_strings = [];
-        for (var day in $scope.days_of_week){
-                if($scope.days_of_week[day]){
-                    days_of_week_strings.push(day);
-                }
+        $scope.errorMessage = false;
+        if (!$scope.code || !$scope.carrier || !$scope.dep_airport || !$scope.dest_airport 
+            || $scope.days_of_week.lenght == 0 || !$scope.departure || !$scope.arrival){
+                $scope.errorMessage = true;
+                $scope.errorMessageText = "Please fill all fields!";
+                return;
         }
 
-        flight = {
-            code: $scope.code,
-            carrier: $scope.carrier,
-            departing_airport: $scope.dep_airport,
-            destination_airport: $scope.dest_airport,
-            days_of_week: days_of_week_strings,
-            departure: $scope.departure,
-            arrival: $scope.arrival
-        }
-        $uibModalInstance.close(flight);
+        FlightService.getFlight($scope.code).then(
+            function (res) {
+                if(res){
+                    $scope.errorMessage = true;
+                    $scope.errorMessageText = "There is already a flight with code " + $scope.code + "!";
+                }else{
+                    var days_of_week_strings = [];
+                    for (var day in $scope.days_of_week){
+                            if($scope.days_of_week[day]){
+                                days_of_week_strings.push(day);
+                            }
+                    }
+
+                    flight = {
+                        code: $scope.code,
+                        carrier: $scope.carrier,
+                        departing_airport: $scope.dep_airport,
+                        destination_airport: $scope.dest_airport,
+                        days_of_week: days_of_week_strings,
+                        departure: $scope.departure,
+                        arrival: $scope.arrival
+                    }
+                    $uibModalInstance.close(flight);
+                }
+            },
+            function (reason) {
+                console.error('Error while fetching Flight');
+            }
+        );
     };
 
     $scope.cancel = function () {
@@ -48,7 +68,7 @@ angular.module('MainCtrl', [])
         $scope.searchError = false;
         modalInstance = $uibModal.open({
             templateUrl: "views/addFlightModal.html",
-            controller: 'modalCtrl',
+            controller: 'addFlightController',
             scope : $scope
         });
     
@@ -102,7 +122,9 @@ angular.module('MainCtrl', [])
             );
         }
     }
-
+    $scope.teste = function () {
+        console.log("testeeee")
+    }
     $scope.findFlight = function(code) {
         FlightService.getFlight(code).then(
             function (res) {

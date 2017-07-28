@@ -25,9 +25,9 @@ angular.module('ControllerService', []).factory('ControllerService', ['$http', '
         return deferred.promise;
     }
 
-    function createController() {
+    function createController(controller) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
+        $http.post(REST_SERVICE_URI, controller)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

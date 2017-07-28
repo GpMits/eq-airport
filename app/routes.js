@@ -36,6 +36,26 @@ module.exports = function (app) {
             });
     });
 
+    //Get Flights codes using a list of ids
+    app.get('/api/flight/codes/:id_list', function (req, res) {
+        var id_list = req.params.id_list;
+        id_list = id_list.split(',')
+        params = {
+            "_id" : {$in: 
+                        id_list
+                    }
+        }
+        Flight.find(params, 'code',
+            function (err, flight) {
+                if (err)
+                    res.send(err);
+                else if (!flight)
+                    res.send(200, null);
+                else
+                    res.send(flight);
+            });
+    });
+
     //Get Controller by code
     app.get('/api/controller/:code', function (req, res) {
         var code = req.params.code;
@@ -89,12 +109,32 @@ module.exports = function (app) {
         });
     });
 
+    //Get all Arrivals
+    app.get('/api/arrival/', function (req, res) {
+        Arrival.find({}, function (err, arrivals) {
+            if (err)
+                res.send(err);
+            else
+                res.send(200, arrivals);
+        });
+    });
+
+    //Get all Departures
+    app.get('/api/departure/', function (req, res) {
+        Departure.find({}, function (err, departures) {
+            if (err)
+                res.send(err);
+            else
+                res.send(200, departures);
+        });
+    });
+
     //Get Arrivals by Flight id, between dates
     app.get('/api/arrival/:flight_id/:begin_date/:end_date', function (req, res) {
         var flight_id = req.params.flight_id;
         var begin_date = req.params.begin_date;
         var end_date = req.params.end_date;
-        console.log(flight_id)
+
         Arrival.find({
             "flight_id": new ObjectId(flight_id),
             "arrival_time": {

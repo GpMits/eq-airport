@@ -1,5 +1,5 @@
 angular.module('FlightCtrl', [])
-.controller('newDepartureModalCtrl', function ($scope, $uibModalInstance, ControllerService, DepartureService){
+.controller('newDepartureModalController', function ($scope, $uibModalInstance, ControllerService, DepartureService){
     $scope.controllers = []
     $scope.erroMessage = false;
     $scope.warningMessage = false;
@@ -114,7 +114,6 @@ angular.module('FlightCtrl', [])
                                     code: controllers_codes[i],
                                     busy: true
                                 }
-                                console.log(controller)
                                 ControllerService.updateController(controller).then(
                                     function (res) {
                                         console.log("Controller updated!");
@@ -148,7 +147,7 @@ angular.module('FlightCtrl', [])
     };
 
 })
-.controller('newArrivalModalCtrl', function ($scope, $uibModalInstance, ControllerService, ArrivalService){
+.controller('newArrivalModalController', function ($scope, $uibModalInstance, ControllerService, ArrivalService){
     $scope.controllers = []
     $scope.erroMessage = false;
     $scope.warningMessage = false;
@@ -262,7 +261,6 @@ angular.module('FlightCtrl', [])
                                     code: controllers_codes[i],
                                     busy: true
                                 }
-                                console.log(controller)
                                 ControllerService.updateController(controller).then(
                                     function (res) {
                                         console.log("Controller updated!");
@@ -309,7 +307,7 @@ angular.module('FlightCtrl', [])
         $scope.searchError = false;
         modalInstance = $uibModal.open({
             templateUrl: "views/addArrivalModal.html",
-            controller: 'newArrivalModalCtrl',
+            controller: 'newArrivalModalController',
             scope: $scope
         });
     
@@ -327,7 +325,7 @@ angular.module('FlightCtrl', [])
         $scope.searchError = false;
         modalInstance = $uibModal.open({
             templateUrl: "views/addDepartureModal.html",
-            controller: 'newDepartureModalCtrl',
+            controller: 'newDepartureModalController',
             scope: $scope
         });
     
