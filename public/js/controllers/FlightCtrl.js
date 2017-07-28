@@ -375,5 +375,42 @@ angular.module('FlightCtrl', [])
         )
     }
     $scope.getLastDeparturesArrivals();
+    
+    google.charts.load('current', {
+      'packages': ['map'],
+    });
+    google.charts.setOnLoadCallback(drawMap);
+
+    function drawMap () {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Address');
+      data.addColumn('string', 'Location');
+
+      data.addRows([
+        ['Airport:' + $scope.flight.departing_airport,'Departing Airport'],
+        ['Airport:' + $scope.flight.destination_airport, 'Destination Airport']
+      ]);
+
+      var options = {
+        mapType: 'styledMap',
+        showTooltip: true,
+        showInfoWindow: true,
+        useMapTypeControl: true,
+        maps: {
+          styledMap: {
+            name: 'Styled Map',
+            styles: [
+              {featureType: 'landscape',
+               stylers: [{hue: '#259b24'}, {saturation: 10}, {lightness: -22}]
+              }
+            ]
+          }
+        }
+      };
+
+      var map = new google.visualization.Map(document.getElementById('map_div'));
+
+      map.draw(data, options);
+    }
 
 });
