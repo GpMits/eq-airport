@@ -1,13 +1,32 @@
 angular.module('ControllersCtrl', [])
-.controller('addControllerCtrl', function ($scope, $uibModalInstance){
+.controller('addControllerCtrl', function ($scope, $uibModalInstance, ControllerService){
     $scope.ok = function () {
-
-        controller = {
-            code: $scope.code,
-            name: $scope.name,
-            surname: $scope.surname,
+        $scope.errorMessage = false;
+        if (!$scope.code || !$scope.name || !$scope.surname){
+                $scope.errorMessage = true;
+                $scope.errorMessageText = "Please fill all fields!";
+                return;
         }
-        $uibModalInstance.close(controller);
+
+        ControllerService.getController($scope.code).then(
+            function (res) {
+                if(res.data){
+                    $scope.errorMessage = true;
+                    $scope.errorMessageText = "There is already a controller with code " + $scope.code + "!";
+                }else{
+                    controller = {
+                    code: $scope.code,
+                    name: $scope.name,
+                    surname: $scope.surname,
+                }
+                $uibModalInstance.close(controller);
+                }
+            },
+            function (reason) {
+                console.error('Error while fetching Controller!');
+            }
+        );
+        
     };
 
     $scope.cancel = function () {
@@ -28,7 +47,6 @@ angular.module('ControllersCtrl', [])
         modalInstance.result.then(function (controller) {
             $scope.insertController(controller);
         }, function () {
-            console.log('Modal dismissed at: ' + new Date());
         });
     }
 
@@ -36,13 +54,13 @@ angular.module('ControllersCtrl', [])
         $scope.controllers_list = [];
         ControllerService.getAllControllers().then(
             function (controllers) {
-                for (var i = 0, len = controllers.length; i < len; i++) {
-                    if(controllers[i].busy){
-                        controllers[i].busy = "Busy";
+                for (var i = 0, len = controllers.data.length; i < len; i++) {
+                    if(controllers.data[i].busy){
+                        controllers.data[i].busy = "Busy";
                     }else{
-                        controllers[i].busy = "Free";
+                        controllers.data[i].busy = "Free";
                     }
-                    $scope.controllers_list.push(controllers[i]);
+                    $scope.controllers_list.push(controllers.data[i]);
                 }
             },
             function (reason) {

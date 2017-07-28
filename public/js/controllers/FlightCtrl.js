@@ -19,12 +19,12 @@ angular.module('FlightCtrl', [])
         if (keyEvent.which === 13){
             ControllerService.getController($scope.controllerCodeSearch).then(
                 function (res) {
-                    if(res){
-                        if(res.busy){
+                    if(res.data){
+                        if(res.data.busy){
                             $scope.warningMessage = true;
                             $scope.warningMessageText = "Controller was added to another departure/departure!";
                         }else{
-                            $scope.controllers.push(res);
+                            $scope.controllers.push(res.data);
                         }
                     }else{
                         $scope.erroMessage = true;
@@ -52,12 +52,12 @@ angular.module('FlightCtrl', [])
 
         ControllerService.getController($scope.controllerCodeSearch).then(
             function (res) {
-                if(res){
-                    if(res.busy){
+                if(res.data){
+                    if(res.data.busy){
                         $scope.warningMessage = true;
                         $scope.warningMessageText = "Controller was added to another departure/departure!";
                     }else{
-                        $scope.controllers.push(res);
+                        $scope.controllers.push(res.data);
                     }
                 }else{
                     $scope.erroMessage = true;
@@ -98,7 +98,7 @@ angular.module('FlightCtrl', [])
 
         DepartureService.getAllDeparturesForFlightBetweenDates($scope.flight._id, begin_date_time, end_date_time).then(
             function (res) {
-                if(res.length == 0){
+                if(res.data.length == 0){
                     departure = {
                         departure_time: departure_date_time,
                         lane_used: $scope.lane,
@@ -167,12 +167,12 @@ angular.module('FlightCtrl', [])
         if (keyEvent.which === 13){
             ControllerService.getController($scope.controllerCodeSearch).then(
                 function (res) {
-                    if(res){
-                        if(res.busy){
+                    if(res.data){
+                        if(res.data.busy){
                             $scope.warningMessage = true;
                             $scope.warningMessageText = "Controller was added to another arrival/departure!";
                         }else{
-                            $scope.controllers.push(res);
+                            $scope.controllers.push(res.data);
                         }
                     }else{
                         $scope.erroMessage = true;
@@ -200,12 +200,12 @@ angular.module('FlightCtrl', [])
 
         ControllerService.getController($scope.controllerCodeSearch).then(
             function (res) {
-                if(res){
-                    if(res.busy){
+                if(res.data){
+                    if(res.data.busy){
                         $scope.warningMessage = true;
                         $scope.warningMessageText = "Controller was added to another arrival/departure!";
                     }else{
-                        $scope.controllers.push(res);
+                        $scope.controllers.push(res.data);
                     }
                 }else{
                     $scope.erroMessage = true;
@@ -245,7 +245,7 @@ angular.module('FlightCtrl', [])
 
         ArrivalService.getAllArrivalsForFlightBetweenDates($scope.flight._id, begin_date_time, end_date_time).then(
             function (res) {
-                if(res.length == 0){
+                if(res.data.length == 0){
                     arrival = {
                         arrival_time: arrival_date_time,
                         lane_used: $scope.lane,
@@ -346,23 +346,23 @@ angular.module('FlightCtrl', [])
 
         ArrivalService.getAllArrivalsForFlightBetweenDates($scope.flight._id, begin_date_time, end_date_time).then(
             function (res) {
-                for (var i = 0, len = res.length; i < len; i++) {
+                for (var i = 0, len = res.data.length; i < len; i++) {
                     var da = {
                         type: "Arrival",
-                        date_time: res[i].arrival_time,
-                        lane: res[i].lane_used,
-                        controllers: res[i].controllers.join()
+                        date_time: res.data[i].arrival_time,
+                        lane: res.data[i].lane_used,
+                        controllers: res.data[i].controllers.join()
                     }
                     $scope.departures_arrivals.push(da)
                 }
                 DepartureService.getAllDeparturesForFlightBetweenDates($scope.flight._id, begin_date_time, end_date_time).then(
                     function (res) {
-                        for (var i = 0, len = res.length; i < len; i++) {
+                        for (var i = 0, len = res.data.length; i < len; i++) {
                             var da = {
                                 type: "Departure",
-                                date_time: res[i].departure_time,
-                                lane: res[i].lane_used,
-                                controllers: res[i].controllers.join()
+                                date_time: res.data[i].departure_time,
+                                lane: res.data[i].lane_used,
+                                controllers:  res.data[i].controllers.join()
                             }
                             $scope.departures_arrivals.push(da)
                         }

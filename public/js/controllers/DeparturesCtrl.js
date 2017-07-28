@@ -18,8 +18,8 @@ angular.module('DeparturesCtrl', [])
                 var flight_ids_unique = flight_ids.filter( onlyUnique );
                 FlightService.getFlightsCodes(flight_ids_unique).then(
                     function (flights){
-                        for (var i = 0, len = flights.length; i < len; i++) {
-                            flight_codes[flights[i]._id] = flights[i].code;
+                        for (var i = 0, len = flights.data.length; i < len; i++) {
+                            flight_codes[flights.data[i]._id] = flights.data[i].code;
                         }
 
                         for (var i = 0, len = departures.length; i < len; i++) {

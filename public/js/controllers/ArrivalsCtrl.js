@@ -8,8 +8,8 @@ angular.module('ArrivalsCtrl', [])
                     
         ArrivalService.getAllArrivals().then(
             function (arrivals) {
-                for (var i = 0, len = arrivals.length; i < len; i++) {
-                    flight_ids.push(arrivals[i].flight_id);
+                for (var i = 0, len = arrivals.data.length; i < len; i++) {
+                    flight_ids.push(arrivals.data[i].flight_id);
                 }
 
                 function onlyUnique(value, index, self) { 
@@ -18,16 +18,16 @@ angular.module('ArrivalsCtrl', [])
                 var flight_ids_unique = flight_ids.filter( onlyUnique );
                 FlightService.getFlightsCodes(flight_ids_unique).then(
                     function (flights){
-                        for (var i = 0, len = flights.length; i < len; i++) {
-                            flight_codes[flights[i]._id] = flights[i].code;
+                        for (var i = 0, len = flights.data.length; i < len; i++) {
+                            flight_codes[flights.data[i]._id] = flights.data[i].code;
                         }
 
-                        for (var i = 0, len = arrivals.length; i < len; i++) {
+                        for (var i = 0, len = arrivals.data.length; i < len; i++) {
                             var arrival = {
-                                flight_code:  flight_codes[arrivals[i].flight_id],
-                                date_time: arrivals[i].arrival_time,
-                                lane: arrivals[i].lane_used,
-                                controllers: arrivals[i].controllers.join()
+                                flight_code:  flight_codes[arrivals.data[i].flight_id],
+                                date_time: arrivals.data[i].arrival_time,
+                                lane: arrivals.data[i].lane_used,
+                                controllers: arrivals.data[i].controllers.join()
                             }
                             $scope.arrivals_list.push(arrival)
                         }

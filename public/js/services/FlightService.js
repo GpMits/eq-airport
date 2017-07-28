@@ -12,59 +12,19 @@ angular.module('FlightService', []).factory('FlightService', ['$http', '$q', fun
     return factory;
 
     function getFlight(flightCode) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + flightCode)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI + flightCode);
     }
 
     function createFlight(flight) {
-        var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI, flight)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.post(REST_SERVICE_URI, flight);
     }
 
     function getLastNFlights(n) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + 'n/' + n)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI + 'n/' + n);
     }
 
     function getFlightsCodes(flight_ids) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + 'codes/' + flight_ids.join())
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI + 'codes/' + flight_ids.join());
     }
 
 }]);

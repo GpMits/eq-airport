@@ -11,7 +11,7 @@ angular.module('MainCtrl', [])
 
         FlightService.getFlight($scope.code).then(
             function (res) {
-                if(res){
+                if(res.data){
                     $scope.errorMessage = true;
                     $scope.errorMessageText = "There is already a flight with code " + $scope.code + "!";
                 }else{
@@ -95,7 +95,7 @@ angular.module('MainCtrl', [])
     $scope.getLast10Flights = function(){
         FlightService.getLastNFlights(10).then(
             function (res) {
-                $scope.flights = res;
+                $scope.flights = res.data;
             },
             function (reason) {
                 console.error('Error while fetching Flights');
@@ -109,8 +109,8 @@ angular.module('MainCtrl', [])
         if (keyEvent.which === 13){
             FlightService.getFlight($scope.flightCodeSearch).then(
                 function (res) {
-                    if(res){
-                        $rootScope.flight = res;
+                    if(res.data){
+                        $rootScope.flight = res.data;
                         $location.path('/flight');
                     }else{
                         $scope.searchError = true;
@@ -128,8 +128,8 @@ angular.module('MainCtrl', [])
     $scope.findFlight = function(code) {
         FlightService.getFlight(code).then(
             function (res) {
-                if(res){
-                    $rootScope.flight = res;
+                if(res.data){
+                    $rootScope.flight = res.data;
                     $location.path('/flight');
                 }else{
                     $scope.searchError = true;

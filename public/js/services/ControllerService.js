@@ -12,58 +12,18 @@ angular.module('ControllerService', []).factory('ControllerService', ['$http', '
     return factory;
 
     function getController(controllerCode) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + controllerCode)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI + controllerCode);
     }
 
     function createController(controller) {
-        var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI, controller)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.post(REST_SERVICE_URI, controller);
     }
 
     function getAllControllers() {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI);
     }
 
     function updateController(controller) {
-        var deferred = $q.defer();
-        $http.put(REST_SERVICE_URI + controller.code, controller)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.put(REST_SERVICE_URI + controller.code, controller);
     }
 }]);

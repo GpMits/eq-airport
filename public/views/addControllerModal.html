@@ -2,6 +2,10 @@
     <h3 class="modal-title md-headline" id="modal-title">New Controller</h3>
 </div>
 <div class="modal-body" id="modal-body">
+    <div class="alert alert-danger" ng-show="errorMessage">
+        <strong>{{errorMessageText}}</strong>
+    </div>
+    <br>
     <div class="form-group" >
         <md-input-container class="md-icon-float md-block">
             <label>Code</label>

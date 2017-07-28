@@ -13,73 +13,23 @@ angular.module('ArrivalService', []).factory('ArrivalService', ['$http', '$q', f
     return factory;
 
     function getArrival(arrivalCode) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + arrivalCode)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI + arrivalCode);
     }
 
     function createArrival(arrival) {
-        var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI, arrival)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.post(REST_SERVICE_URI, arrival);
     }
 
     function getAllArrivalsForFlight(flightCode) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + flightCode)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI + flightCode);
     }
 
     function getAllArrivals() {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI);
     }
 
     function getAllArrivalsForFlightBetweenDates(flightCode, begin_date, end_date) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + flightCode + "/" + begin_date + "/" + end_date)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function (errResponse) {
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
+        return $http.get(REST_SERVICE_URI + flightCode + "/" + begin_date + "/" + end_date);
     }
 
 }]);
