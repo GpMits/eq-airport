@@ -36,7 +36,7 @@ For the maps I've used the Google Visualization API, which is a great API for da
 
 ## Dummy data
 The dummy data was generated using the tool [Mockaroo](http://www.mockaroo.com). 
-It contains 200 flights, 500 arrivals, 500 departures and 50 controllers. The airports were extracted from Wikipedia, on the list of biggest airports in europe.
+It contains 200 flights, 500 arrivals, 500 departures and 50 controllers. The airports were extracted from Wikipedia, on the list of biggest airports in Europe.
 Even though the data fits well the structure, the times are really random and don't make sense in real flight scenarios.
 
 It was not possible to ensure the uniqueness of the controller on the arrivals and departures dummy data generator, so the dummy data contains controllers assigned to multiple arrivals/departures, even though the application doesn't allow it when those are created using the UI. This should not be a problem since the purpose of the dummy data is only to provide easy way to visualize the application better and to make easier to test inclusions that require data to be in the database already.
