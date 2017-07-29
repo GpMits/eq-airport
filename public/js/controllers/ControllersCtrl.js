@@ -2,12 +2,14 @@ angular.module('ControllersCtrl', [])
 .controller('addControllerCtrl', function ($scope, $uibModalInstance, ControllerService){
     $scope.ok = function () {
         $scope.errorMessage = false;
+        //Check if all fields are filled
         if (!$scope.code || !$scope.name || !$scope.surname){
                 $scope.errorMessage = true;
                 $scope.errorMessageText = "Please fill all fields!";
                 return;
         }
 
+        //Check if the controller is unique
         ControllerService.getController($scope.code).then(
             function (res) {
                 if(res.data){
@@ -50,17 +52,20 @@ angular.module('ControllersCtrl', [])
         });
     }
 
+    //Get all controllers from db
     $scope.getControllers = function() {
         $scope.controllers_list = [];
         ControllerService.getAllControllers().then(
             function (controllers) {
-                for (var i = 0, len = controllers.data.length; i < len; i++) {
-                    if(controllers.data[i].busy){
-                        controllers.data[i].busy = "Busy";
-                    }else{
-                        controllers.data[i].busy = "Free";
+                if(controllers.data){
+                    for (var i = 0, len = controllers.data.length; i < len; i++) {
+                        if(controllers.data[i].busy){
+                            controllers.data[i].busy = "Busy";
+                        }else{
+                            controllers.data[i].busy = "Free";
+                        }
+                        $scope.controllers_list.push(controllers.data[i]);
                     }
-                    $scope.controllers_list.push(controllers.data[i]);
                 }
             },
             function (reason) {
@@ -70,10 +75,10 @@ angular.module('ControllersCtrl', [])
     }
     $scope.getControllers();
 
+    //Add the new controller in db
     $scope.insertController = function(controller){
         ControllerService.createController(controller).then(
             function (res) {
-                console.log("Controller Inserted in DB!");
                 $scope.showControllerCreated = true;
                 $scope.getControllers();
             },

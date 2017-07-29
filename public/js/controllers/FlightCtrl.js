@@ -4,10 +4,10 @@ angular.module('FlightCtrl', [])
     $scope.erroMessage = false;
     $scope.warningMessage = false;
 
+    //Search and add the controller when enter key is pressed
     $scope.searchController = function(keyEvent) {
         $scope.erroMessage = false;
         $scope.warningMessage = false;
-        
         for (var i = 0, len = $scope.controllers.length; i < len; i++) {
             if($scope.controllers[i].code == $scope.controllerCodeSearch){
                 $scope.warningMessage = true;
@@ -22,7 +22,7 @@ angular.module('FlightCtrl', [])
                     if(res.data){
                         if(res.data.busy){
                             $scope.warningMessage = true;
-                            $scope.warningMessageText = "Controller was added to another departure/departure!";
+                            $scope.warningMessageText = "Controller was added to another arrival/departure!";
                         }else{
                             $scope.controllers.push(res.data);
                         }
@@ -38,6 +38,7 @@ angular.module('FlightCtrl', [])
         }
     }
 
+    //Search and add the controller when search button is clicked
     $scope.findController = function() {
         $scope.erroMessage = false;
         $scope.warningMessage = false;
@@ -55,7 +56,7 @@ angular.module('FlightCtrl', [])
                 if(res.data){
                     if(res.data.busy){
                         $scope.warningMessage = true;
-                        $scope.warningMessageText = "Controller was added to another departure/departure!";
+                        $scope.warningMessageText = "Controller was added to another arrival/departure!";
                     }else{
                         $scope.controllers.push(res.data);
                     }
@@ -70,6 +71,7 @@ angular.module('FlightCtrl', [])
         );
     };
 
+    //Remove controller from controllers list
     $scope.removeController = function (controller){
         var index = $scope.controllers.indexOf(controller);
         $scope.controllers.splice(index);
@@ -78,6 +80,8 @@ angular.module('FlightCtrl', [])
     $scope.ok = function () {
         $scope.erroMessage = false;
         $scope.warningMessage = false;
+
+        //Check is there are controllers in the list
         if($scope.controllers.length == 0){
             $scope.erroMessage = true;
             $scope.erroMessageText = "Plase add at least one flight controller!";
@@ -89,6 +93,7 @@ angular.module('FlightCtrl', [])
             controllers_codes.push($scope.controllers[i].code);
         }
 
+        //Dates to ensure the departure uniqness
         var departure_date_time = new Date($scope.departure_date.getFullYear(), 
                                          $scope.departure_date.getMonth(), $scope.departure_date.getDate(), 
                                          $scope.departure_time.getHours(), $scope.departure_time.getMinutes(), 
@@ -108,7 +113,6 @@ angular.module('FlightCtrl', [])
 
                     DepartureService.createDeparture(departure).then(
                         function (res) {
-                            console.log("Departure Inserted in DB!");
                             for (var i = 0, len = controllers_codes.length; i < len; i++) {
                                 controller = {
                                     code: controllers_codes[i],
@@ -116,14 +120,14 @@ angular.module('FlightCtrl', [])
                                 }
                                 ControllerService.updateController(controller).then(
                                     function (res) {
-                                        console.log("Controller updated!");
                                     },
                                     function (reason) {
                                         console.error('Error while updating Controller');
                                     }
                                 )
                             }
-                            $scope.showDepartureCreated = true;
+                            $scope.showArrivalDepartureCreated = true;
+                            $scope.successMessage = "Departure successfully created"
                             $uibModalInstance.close();
                         },
                         function (reason) {
@@ -152,6 +156,7 @@ angular.module('FlightCtrl', [])
     $scope.erroMessage = false;
     $scope.warningMessage = false;
 
+    //Search and add the controller when enter key is pressed
     $scope.searchController = function(keyEvent) {
         $scope.erroMessage = false;
         $scope.warningMessage = false;
@@ -186,6 +191,7 @@ angular.module('FlightCtrl', [])
         }
     }
 
+    //Search and add the controller when search button is clicked
     $scope.findController = function() {
         $scope.erroMessage = false;
         $scope.warningMessage = false;
@@ -218,6 +224,7 @@ angular.module('FlightCtrl', [])
         );
     };
 
+    //Remove controller form lsit
     $scope.removeController = function (controller){
         var index = $scope.controllers.indexOf(controller);
         $scope.controllers.splice(index);
@@ -255,7 +262,6 @@ angular.module('FlightCtrl', [])
 
                     ArrivalService.createArrival(arrival).then(
                         function (res) {
-                            console.log("Arrival Inserted in DB!");
                             for (var i = 0, len = controllers_codes.length; i < len; i++) {
                                 controller = {
                                     code: controllers_codes[i],
@@ -263,14 +269,14 @@ angular.module('FlightCtrl', [])
                                 }
                                 ControllerService.updateController(controller).then(
                                     function (res) {
-                                        console.log("Controller updated!");
                                     },
                                     function (reason) {
                                         console.error('Error while updating Controller');
                                     }
                                 )
                             }
-                            $scope.showArrivalCreated = true;
+                            $scope.showArrivalDepartureCreated = true;
+                            $scope.successMessage = "Arrival successfully created"
                             $uibModalInstance.close();
                         },
                         function (reason) {
@@ -312,11 +318,9 @@ angular.module('FlightCtrl', [])
         });
     
         modalInstance.result.then(function () {
-            $scope.showArrivalCreated = true;
             $scope.getLastDeparturesArrivals();
 
         }, function () {
-            console.log('Modal dismissed at: ' + new Date());
         });
     }
 
@@ -330,14 +334,13 @@ angular.module('FlightCtrl', [])
         });
     
         modalInstance.result.then(function () {
-            $scope.showDepartureCreated = true;
             $scope.getLastDeparturesArrivals();
 
         }, function () {
-            console.log('Modal dismissed at: ' + new Date());
         });
     }
 
+    //Get all departures and arrivals for the current flight
     $scope.getLastDeparturesArrivals = function() {
         $scope.departures_arrivals = [];
         var end_date_time = new Date();
@@ -389,6 +392,7 @@ angular.module('FlightCtrl', [])
     }
     $scope.getLastDeparturesArrivals();
     
+    //Flight Map
     google.charts.load('current', {
       'packages': ['map'],
     });

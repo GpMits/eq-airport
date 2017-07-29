@@ -3,7 +3,7 @@ angular.module('MainCtrl', [])
     $scope.ok = function () {
         $scope.errorMessage = false;
         if (!$scope.code || !$scope.carrier || !$scope.dep_airport || !$scope.dest_airport 
-            || $scope.days_of_week.lenght == 0 || !$scope.departure || !$scope.arrival){
+            || $scope.days_of_week.length == 0 || !$scope.departure || !$scope.arrival){
                 $scope.errorMessage = true;
                 $scope.errorMessageText = "Please fill all fields!";
                 return;
@@ -75,14 +75,12 @@ angular.module('MainCtrl', [])
         modalInstance.result.then(function (flight) {
             $scope.insertFlight(flight);
         }, function () {
-            console.log('Modal dismissed at: ' + new Date());
         });
     }
 
     $scope.insertFlight = function(flight){
         FlightService.createFlight(flight).then(
             function (res) {
-                console.log("Flight Inserted in DB!");
                 $scope.showFlightCreated = true;
                 $scope.getLast10Flights();
             },
@@ -122,9 +120,7 @@ angular.module('MainCtrl', [])
             );
         }
     }
-    $scope.teste = function () {
-        console.log("testeeee")
-    }
+
     $scope.findFlight = function(code) {
         FlightService.getFlight(code).then(
             function (res) {
