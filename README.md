@@ -43,9 +43,12 @@ It was not possible to ensure the uniqueness of the controller on the arrivals a
 
 To import the dummy data, the following commands can be run:  
 
-`mongoimport --db airport --collection flights --file flights.json --jsonArray`
-`mongoimport --db airport --collection arrivals --file arrivals.json --jsonArray`
-`mongoimport --db airport --collection departures --file departures.json --jsonArray`
-`mongoimport --db airport --collection controllers --file controllers.json --jsonArray`
+`mongoimport --db airport --collection flights --file flights.json --jsonArray`  
+`mongoimport --db airport --collection arrivals --file arrivals.json --jsonArray`  
+`mongoimport --db airport --collection departures --file departures.json --jsonArray`  
+`mongoimport --db airport --collection controllers --file controllers.json --jsonArray`  
 
 In order to facilitate this process I've created a custom shellscript located in `scripts/import_dummy.sh`
+
+Free Controllers codes in the dummy data:
+`B48, L80, X81, C49, P79, Z66, F00, N27, X80 ...`
